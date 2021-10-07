@@ -15,18 +15,14 @@ from package.generate import identity_generator
 import MySQLdb
 import os
 
-
-
-
-
 func = selenium_setting.function()
 Base_dir = os.getcwd()
 vip_token = 'efai_token_apikey_2021_'
 
 def database():
     db = MySQLdb.connect(host='localhost',
-                         user='root',
-                         password='',
+                         user='user',
+                         password='password',
                          db='api_db',
                          charset='utf8')
     cursor = db.cursor()
@@ -51,33 +47,9 @@ security = HTTPBasic()
 x_api_token = ''
 
 
-
 def reset_token():
     global x_api_token
     x_api_token = ''
-
-
-# def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
-#     correct_username = secrets.compare_digest(credentials.username, "rubio")
-#     correct_password = secrets.compare_digest(credentials.password, "0000")
-#     if correct_username and correct_password:
-#         return True
-#     else:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Incorrect email or password",
-#             headers={"WWW-Authenticate": "Basic"},
-#         )
-
-# @app.get('/docs', include_in_schema=False)
-# async def get_documentation(username: str = Depends()):
-#     return get_swagger_ui_html(openapi_url="/openapi.json", title="docs")
-
-
-# @app.get("/openapi.json", include_in_schema=False)
-# async def openapi(username: str = Depends()):
-    return get_openapi(title="FastAPI", version="0.1.0", routes=app.routes)
-
 
 @app.get("/get_token/", tags=['Token'])
 async def get_token(x_api_key: Optional[str]):
