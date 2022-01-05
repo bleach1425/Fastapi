@@ -18,16 +18,16 @@ from package.generate import identity_generator
 import MySQLdb
 import os
 
-# def database():
-#     db = MySQLdb.connect(host='localhost',
-#                          user='rubio',
-#                          password='0000',
-#                          db='api_db',
-#                          charset='utf8')
-#     cursor = db.cursor()
-#     return db, cursor
+def database():
+    db = MySQLdb.connect(host='localhost',
+                         user='rubio',
+                         password='0000',
+                         db='api_db',
+                         charset='utf8')
+    cursor = db.cursor()
+    return db, cursor
 
-# db, cursor = database()
+db, cursor = database()
 
 
 def mongo_db(table):
