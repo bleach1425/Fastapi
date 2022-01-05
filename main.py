@@ -91,8 +91,8 @@ async def insert(token: Optional[str], name: Optional[str], age: Optional[int],
     if token != x_api_token:
         Message = {"Status": "Error", "Message": "Token is error"}
         return JSONResponse(status_code=404, content=Message)
-    sql = f"INSERT INTO `db_table`(`Name`, `Age`, `Feature`, `Level`) VALUES('{name}', '{age}', '{feature}', '{level}')"
-    cursor.execute(sql)
+    sql = "insert into db_table(Name, Age, Feature, Level) values(%s, %s, %s, %s)"
+    cursor.execute(sql, (name, age, feature, level))
     db.commit()
     return "OK"
 
@@ -103,8 +103,8 @@ async def insert(token: Optional[str], country: Optional[str],
     if token != x_api_token:
         Message = {"Status": "Error", "Message": "Token is error"}
         return JSONResponse(status_code=404, content=Message)
-    sql = f"INSERT INTO `country`(`country`, `area`, `population`) VALUES('{country}', '{area}', '{population}')"
-    cursor.execute(sql)
+    sql = "insert into country(country, area, population) values(%s, %s, %s)"
+    cursor.execute(sql, (country, area, population))
     db.commit()
     return "OK"
 
@@ -134,9 +134,9 @@ async def search(token: Optional[str], start: Optional[int], end: Optional[int],
         Message = {"Status": "Error", "Message": "Token is error"}
         return JSONResponse(status_code=404, content=Message)
     if limit:
-        cursor.execute(f"SELECT * FROM `country` LIMIT {start},{end}")
+        cursor.execute("select * from country limit %s, %s", (start, end))
     else:
-        cursor.execute(f"SELECT * FROM `db_table`")
+        cursor.execute("select * from db_table")
     data = cursor.fetchall()
     return data[:limit]
     # return data[start:end]
@@ -144,7 +144,8 @@ async def search(token: Optional[str], start: Optional[int], end: Optional[int],
 @app.patch("/db/fix", tags=['database'])
 async def fix(token: Optional[str], table: Optional[str] ,columns: Optional[str],
               target: Optional[str], fix_to: Optional[str]):
-    cursor.execute(f'UPDATE `{table}` SET `{columns}`="{fix_to}" WHERE `{columns}`="{target}"')
+#     cursor.execute(f'UPDATE `{table}` SET `{columns}`="{fix_to}" WHERE `{columns}`="{target}"')
+    cursor.execute("update %s set %s = %s where %s = %s", (table, columns, fix_to, columns, target))
     db.commit()
     return "Update correct"
 # ---------------------------------- #
