@@ -1,34 +1,7 @@
-import uvicorn
-from typing import Optional, Set, List
-from fastapi import FastAPI, File, UploadFile, Path,\
-                    HTTPException, Query, Header,  \
-                    Response, Depends, status
-from fastapi.responses import JSONResponse
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.openapi.utils import get_openapi
-from pydantic import BaseModel, Field
-import secrets
-from threading import Timer
-from selenium_setting import selenium_setting
-from package.generate import identity_generator
-import MySQLdb
-import os
+from settings import *
 
-func = selenium_setting.function()
 Base_dir = os.getcwd()
 vip_token = 'efai_token_apikey_2021_'
-
-def database():
-    db = MySQLdb.connect(host='localhost',
-                         user='user',
-                         password='password',
-                         db='api_db',
-                         charset='utf8')
-    cursor = db.cursor()
-    return db, cursor
-
-db, cursor = database()
 
 class Item(BaseModel):
     name: str
